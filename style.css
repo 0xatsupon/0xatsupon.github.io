@@ -171,12 +171,33 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.5;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 20%, var(--bg) 75%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, var(--bg), transparent);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .hero__container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .hero__title {
@@ -297,26 +318,36 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   position: absolute;
   top: 0;
   right: 0;
-  width: 65%;
+  width: 70%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.5;
-  mask-image: linear-gradient(to left, rgba(0,0,0,0.6), transparent 80%);
-  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.6), transparent 80%);
+  opacity: 0.35;
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.7), transparent 85%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.7), transparent 85%);
   pointer-events: none;
+  transition: opacity 600ms var(--ease);
+}
+
+.bento__main:hover .bento__visual {
+  opacity: 0.5;
 }
 
 .bento__side-visual {
   position: absolute;
   top: 0;
   right: 0;
-  width: 50%;
+  width: 55%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.4;
-  mask-image: linear-gradient(to left, rgba(0,0,0,0.5), transparent 70%);
-  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.5), transparent 70%);
+  opacity: 0.3;
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.6), transparent 75%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.6), transparent 75%);
   pointer-events: none;
+  transition: opacity 600ms var(--ease);
+}
+
+.bento__side:hover .bento__side-visual {
+  opacity: 0.45;
 }
 
 .bento__content {
@@ -324,7 +355,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   z-index: 1;
 }
 
-.bento__main:hover { border-color: var(--border-hover); }
+.bento__main:hover {
+  border-color: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 60px rgba(99, 102, 241, 0.04);
+}
 
 .bento__label {
   font-family: var(--mono);
@@ -360,10 +394,18 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   justify-content: flex-end;
   position: relative;
   overflow: hidden;
-  transition: border-color 400ms;
+  transition: border-color 400ms, box-shadow 400ms;
 }
 
-.bento__side:hover { border-color: var(--border-hover); }
+.bento__side--top:hover {
+  border-color: rgba(245, 158, 11, 0.15);
+  box-shadow: 0 0 40px rgba(245, 158, 11, 0.04);
+}
+
+.bento__side--bottom:hover {
+  border-color: rgba(168, 85, 247, 0.15);
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.04);
+}
 
 .bento__side-title {
   font-size: 1.2rem;
@@ -384,7 +426,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   background: var(--bg-card);
   border: 1px solid var(--border);
   overflow: hidden;
-  transition: border-color 400ms, transform 400ms var(--ease);
+  transition: border-color 400ms, transform 400ms var(--ease), box-shadow 400ms;
   position: relative;
 }
 
@@ -397,13 +439,19 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .pcard--hero {
   display: flex;
   flex-direction: column;
+  background: var(--bg-card);
 }
 
 .pcard--hero .pcard__img {
   width: 100%;
-  height: 200px;
+  height: 240px;
   object-fit: cover;
   display: block;
+  transition: transform 600ms var(--ease);
+}
+
+.pcard--hero:hover .pcard__img {
+  transform: scale(1.03);
 }
 
 /* Side-by-side row */
@@ -417,9 +465,14 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 /* Standard card with top image */
 .pcard .pcard__img {
   width: 100%;
-  height: 160px;
+  height: 180px;
   object-fit: cover;
   display: block;
+  transition: transform 600ms var(--ease);
+}
+
+.pcard:hover .pcard__img {
+  transform: scale(1.03);
 }
 
 /* Wide card (text left, image right) */
@@ -433,6 +486,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 600ms var(--ease);
+}
+
+.pcard--wide:hover .pcard__img-side {
+  transform: scale(1.03);
 }
 
 .pcard__body {
@@ -462,13 +520,13 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .tag--cyan { background: rgba(56, 189, 248, 0.1); color: #38bdf8; }
 .tag--lime { background: rgba(132, 204, 22, 0.1); color: #a3e635; }
 
-/* Per-project card accent border on hover */
-.pcard--green:hover { border-color: rgba(34, 197, 94, 0.2); }
-.pcard--amber:hover { border-color: rgba(245, 158, 11, 0.2); }
-.pcard--blue:hover { border-color: rgba(59, 130, 246, 0.2); }
-.pcard--purple:hover { border-color: rgba(168, 85, 247, 0.2); }
-.pcard--cyan:hover { border-color: rgba(56, 189, 248, 0.2); }
-.pcard--lime:hover { border-color: rgba(132, 204, 22, 0.2); }
+/* Per-project card accent border + glow on hover */
+.pcard--green:hover { border-color: rgba(34, 197, 94, 0.25); box-shadow: 0 8px 32px rgba(34, 197, 94, 0.08); }
+.pcard--amber:hover { border-color: rgba(245, 158, 11, 0.25); box-shadow: 0 8px 32px rgba(245, 158, 11, 0.08); }
+.pcard--blue:hover { border-color: rgba(59, 130, 246, 0.25); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.08); }
+.pcard--purple:hover { border-color: rgba(168, 85, 247, 0.25); box-shadow: 0 8px 32px rgba(168, 85, 247, 0.08); }
+.pcard--cyan:hover { border-color: rgba(56, 189, 248, 0.25); box-shadow: 0 8px 32px rgba(56, 189, 248, 0.08); }
+.pcard--lime:hover { border-color: rgba(132, 204, 22, 0.25); box-shadow: 0 8px 32px rgba(132, 204, 22, 0.08); }
 
 .pcard__title {
   font-size: 1.3rem;
